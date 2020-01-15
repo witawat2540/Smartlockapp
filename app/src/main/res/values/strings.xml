@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Smartlock</string>
+    <string name="permission_read_phone_state_rationale">test</string>
+    <string name="permissions_not_granted_read_phone_state">test</string>
+</resources>
