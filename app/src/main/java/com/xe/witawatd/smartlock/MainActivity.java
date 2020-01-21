@@ -32,9 +32,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     //private TextView textView;
     private ImageButton btnimQR;
+    private Button Btninfo;
     private Spinner dorspinner;
     String Datadoor ;
-    private Button btnQR ;
+    //private Button btnQR ;
     private String comment ;
     private TextView textView2;
     private List<String> items;
@@ -119,9 +120,30 @@ public class MainActivity extends AppCompatActivity {
         final TelephonyManager tm =(TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         //Get IMEI Number of Phone  //////////////// for this example i only need the IMEI
         final String IMEI_phone=tm.getDeviceId();
+        Btninfo = (Button)findViewById(R.id.btninfo);
+        final String deviceName = DeviceName.getDeviceName();
+        Btninfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+                builder.setCancelable(false);
+                builder.setTitle("Waring");
+                builder.setMessage("deviceName: "+deviceName);
+                builder.setMessage("IMEI: "+IMEI_phone);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+
+                    }
+                });
+                builder.show();
+            }
+        });
+
         try {
-            textView2 = (TextView)findViewById(R.id.textView2);
-            String deviceName = DeviceName.getDeviceName();
+            //textView2 = (TextView)findViewById(R.id.textView2);
+
             //textView2.setText(deviceName);
             SelectAlldata selectAlldata = new SelectAlldata(MainActivity.this,IMEI_phone,deviceName);
             selectAlldata.execute();
