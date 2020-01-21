@@ -21,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jaredrummler.android.device.DeviceName;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     String Datadoor ;
     private Button btnQR ;
     private String comment ;
+    private TextView textView2;
     private List<String> items;
     private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     private ArrayList<String> door = new ArrayList<String>();
@@ -117,7 +120,10 @@ public class MainActivity extends AppCompatActivity {
         //Get IMEI Number of Phone  //////////////// for this example i only need the IMEI
         final String IMEI_phone=tm.getDeviceId();
         try {
-            SelectAlldata selectAlldata = new SelectAlldata(MainActivity.this,IMEI_phone);
+            textView2 = (TextView)findViewById(R.id.textView2);
+            String deviceName = DeviceName.getDeviceName();
+            //textView2.setText(deviceName);
+            SelectAlldata selectAlldata = new SelectAlldata(MainActivity.this,IMEI_phone,deviceName);
             selectAlldata.execute();
             String data = selectAlldata.get();
             JSONObject jsonObject = new JSONObject(data);
@@ -129,8 +135,20 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "กรุณาเชื่อมต่ออินเทอร์เน็ต", Toast.LENGTH_SHORT).show();
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+            builder.setCancelable(false);
+            builder.setTitle("Waring");
+            builder.setMessage("Unable to connect to the internet");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    finish();
+                }
+            });
+            builder.show();
             e.printStackTrace();
+
 
         }
 

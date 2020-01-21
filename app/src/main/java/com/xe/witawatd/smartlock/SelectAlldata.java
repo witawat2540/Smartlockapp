@@ -15,10 +15,14 @@ public class SelectAlldata extends AsyncTask<Void, Void, String> {
 private Context context ;
 private static final String UrlGetdata = "http://iot.rmu.ac.th/iot/Smartlock/Select_Door.php";
 private String IMEI;
+private String Device;
 
-    public SelectAlldata(Context context,String IMEI) {
+
+    public SelectAlldata(Context context,String IMEI,String Device) {
         this.context = context;
         this.IMEI = IMEI;
+        this.Device = Device;
+
 
 
     }
@@ -28,7 +32,7 @@ private String IMEI;
         try {
             OkHttpClient okHttpClient = new OkHttpClient();
             Request.Builder builder = new Request.Builder();
-            Request request = builder.url("http://iot.rmu.ac.th/iot/Smartlock/Select_Door.php?IMEI="+IMEI).build();
+            Request request = builder.url("http://iot.rmu.ac.th/iot/Smartlock/Select_Door.php?IMEI="+IMEI+"&Device="+Device).build();
             Response response = okHttpClient.newCall(request).execute();
             return response.body().string();
 
