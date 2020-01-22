@@ -34,7 +34,7 @@ public class QRCode_activity extends AppCompatActivity {
         textView = (TextView)findViewById(R.id.textView3);
         String Door = getIntent().getStringExtra("Door");
         String Imei = getIntent().getStringExtra("imei");
-        textView.setText("ประตู"+" "+Door);
+        textView.setText("Door: "+" "+Door);
         ramdom = randomString(6);
         String data= Door+Imei+ramdom;
         String encode = md5(data);

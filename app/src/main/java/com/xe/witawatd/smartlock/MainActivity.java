@@ -125,19 +125,10 @@ public class MainActivity extends AppCompatActivity {
         Btninfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
-                builder.setCancelable(false);
-                builder.setTitle("Waring");
-                builder.setMessage("deviceName: "+deviceName);
-                builder.setMessage("IMEI: "+IMEI_phone);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-
-                    }
-                });
-                builder.show();
+                Intent intent2 = new Intent(MainActivity.this,Mainnifo.class);
+                intent2.putExtra("deviceName",deviceName);
+                intent2.putExtra("imei",IMEI_phone);
+                startActivity(intent2);
             }
         });
 
