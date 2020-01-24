@@ -16,6 +16,7 @@ private Context context ;
 private static final String UrlGetdata = "http://iot.rmu.ac.th/iot/Smartlock/Select_Door.php";
 private String IMEI;
 private String Device;
+private String Number;
 
 
     public SelectAlldata(Context context,String IMEI,String Device) {

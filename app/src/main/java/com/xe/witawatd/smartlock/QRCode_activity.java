@@ -1,27 +1,38 @@
 package com.xe.witawatd.smartlock;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+
+import org.apache.commons.codec.binary.Hex;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class QRCode_activity extends AppCompatActivity {
-
+    Handler handler = new Handler();
+    Timer timer = new Timer();
+    TimerTask timetask;
     private ImageView imageQR;
+    private final long startTime = 240000;  // 1000 = 1 second
+    private final long interval = 1000;
     public final static int QRcodeWidth = 500 ;
     Bitmap bitmap ;
-    private TextView textView;
+    private TextView textView,txtime;
     public static final String DATA = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz|!£$%&/=@#";
     public static Random RANDOM = new Random();
     private String ramdom;
@@ -32,12 +43,15 @@ public class QRCode_activity extends AppCompatActivity {
         setContentView(R.layout.activity_qrcode_activity);
         imageQR= (ImageView) findViewById(R.id.imageQR);
         textView = (TextView)findViewById(R.id.textView3);
+        txtime = (TextView)findViewById(R.id.txtime);
+        final MyCountDown countdown = new MyCountDown(startTime,interval);
+        countdown.start();
         String Door = getIntent().getStringExtra("Door");
         String Imei = getIntent().getStringExtra("imei");
-        textView.setText("Door: "+" "+Door);
         ramdom = randomString(6);
         String data= Door+Imei+ramdom;
-        String encode = md5(data);
+        String encode = SHA(data);
+        textView.setText("Door:"+Door);
         AddIMEI addIMEI = new AddIMEI(QRCode_activity.this,Door,encode,Imei);
         addIMEI.execute();
 
@@ -50,6 +64,18 @@ public class QRCode_activity extends AppCompatActivity {
 
         } catch (WriterException e) {
             e.printStackTrace();
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(QRCode_activity.this);
+            builder.setCancelable(false);
+            builder.setTitle("Waring");
+            builder.setMessage("Unable to connect to the internet");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    finish();
+                }
+            });
+            builder.show();
         }
 
 
@@ -99,10 +125,10 @@ public class QRCode_activity extends AppCompatActivity {
 
         return sb.toString();
     }
-    public String md5(String s) {
+    public String SHA(String s) {
         try {
             // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            MessageDigest digest = java.security.MessageDigest.getInstance("SHA-384");
             digest.update(s.getBytes());
             byte messageDigest[] = digest.digest();
 
@@ -117,5 +143,32 @@ public class QRCode_activity extends AppCompatActivity {
         }
         return "";
     }
+    public class MyCountDown extends CountDownTimer {
+        public MyCountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+            // TODO Auto-generated constructor stub
+        }
 
+        @Override
+        public void onFinish() {
+            // TODO Auto-generated method stub
+
+            finish();
+        }
+
+        @Override
+        public void onTick(long remain) {
+            // TODO Auto-generated method stub
+
+            int timeRemain = (int) (remain) ;
+            int hours = (int) (timeRemain / 1000) / 3600;
+            int minutes = (int) ((timeRemain / 1000) % 3600) / 60;
+            int seconds = (int) (timeRemain / 1000) % 60;
+
+
+            txtime.setText("Please use at the time:"+minutes+":"+seconds);
+        }
+
+    }
+    
 }

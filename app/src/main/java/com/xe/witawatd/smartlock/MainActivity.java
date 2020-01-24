@@ -117,9 +117,12 @@ public class MainActivity extends AppCompatActivity {
     }
     public void doPermissionGrantedStuffs() {
         //Have an  object of TelephonyManager
-        final TelephonyManager tm =(TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        final TelephonyManager tm =(TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
         //Get IMEI Number of Phone  //////////////// for this example i only need the IMEI
         final String IMEI_phone=tm.getDeviceId();
+
+
+
         Btninfo = (Button)findViewById(R.id.btninfo);
         final String deviceName = DeviceName.getDeviceName();
         Btninfo.setOnClickListener(new View.OnClickListener() {
@@ -208,4 +211,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 }

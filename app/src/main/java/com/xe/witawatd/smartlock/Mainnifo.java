@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 public class Mainnifo extends AppCompatActivity {
-    private TextView tximei,txdevice;
+    private TextView tximei,txdevice,txnumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -13,9 +13,12 @@ public class Mainnifo extends AppCompatActivity {
         tximei =(TextView)findViewById(R.id.tx_imei);
         txdevice =(TextView)findViewById(R.id.tx_device);
 
+
         String imei = getIntent().getStringExtra("imei");
         String namephone = getIntent().getStringExtra("deviceName");
+
         tximei.setText("IMEI: "+imei);
         txdevice.setText("deviceName: "+namephone);
+
     }
 }
