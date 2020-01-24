@@ -18,8 +18,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.TextView;
+//import android.widget.Toast;
 
 import com.jaredrummler.android.device.DeviceName;
 
@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
     String Datadoor ;
     //private Button btnQR ;
     private String comment ;
-    private TextView textView2;
-    private List<String> items;
+    //private TextView textView2;
+    //private List<String> items;
     private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     private ArrayList<String> door = new ArrayList<String>();
 

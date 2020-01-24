@@ -15,7 +15,9 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
 
-import org.apache.commons.codec.binary.Hex;
+import org.bouncycastle.jcajce.provider.digest.SHA3;
+import org.bouncycastle.jcajce.provider.digest.SHA512;
+import org.bouncycastle.util.encoders.Hex;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -50,7 +52,12 @@ public class QRCode_activity extends AppCompatActivity {
         String Imei = getIntent().getStringExtra("imei");
         ramdom = randomString(6);
         String data= Door+Imei+ramdom;
-        String encode = SHA(data);
+        //String encode = SHA(data);
+        SHA512.Digest digestSHA2 = new SHA512.Digest();
+        byte[] SHA = digestSHA2.digest(data.getBytes());
+
+
+        String encode =Hex.toHexString(SHA);
         textView.setText("Door:"+Door);
         AddIMEI addIMEI = new AddIMEI(QRCode_activity.this,Door,encode,Imei);
         addIMEI.execute();
@@ -125,6 +132,7 @@ public class QRCode_activity extends AppCompatActivity {
 
         return sb.toString();
     }
+    /*
     public String SHA(String s) {
         try {
             // Create MD5 Hash
@@ -143,6 +151,8 @@ public class QRCode_activity extends AppCompatActivity {
         }
         return "";
     }
+
+     */
     public class MyCountDown extends CountDownTimer {
         public MyCountDown(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
@@ -161,12 +171,13 @@ public class QRCode_activity extends AppCompatActivity {
             // TODO Auto-generated method stub
 
             int timeRemain = (int) (remain) ;
-            int hours = (int) (timeRemain / 1000) / 3600;
-            int minutes = (int) ((timeRemain / 1000) % 3600) / 60;
-            int seconds = (int) (timeRemain / 1000) % 60;
-
-
-            txtime.setText("Please use at the time:"+minutes+":"+seconds);
+            //int hours = (int) (timeRemain / 1000) / 3600;
+            final int minutes = (int) ((timeRemain / 1000) % 3600) / 60;
+            final int seconds = (int) (timeRemain / 1000) % 60;
+            txtime.setText("Please use at the time:"+"0"+minutes+":"+seconds);
+            if(seconds<10){
+                txtime.setText("Please use at the time:"+"0"+minutes+":"+"0"+seconds);
+            }
         }
 
     }
