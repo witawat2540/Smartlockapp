@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SAC</string>
+    <string name="app_name">RACs</string>
     <string name="permission_read_phone_state_rationale">test</string>
     <string name="permissions_not_granted_read_phone_state">test</string>
 </resources>

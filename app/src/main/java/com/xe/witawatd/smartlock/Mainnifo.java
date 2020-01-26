@@ -17,8 +17,8 @@ public class Mainnifo extends AppCompatActivity {
         String imei = getIntent().getStringExtra("imei");
         String namephone = getIntent().getStringExtra("deviceName");
 
-        tximei.setText("IMEI: "+imei);
-        txdevice.setText("deviceName: "+namephone);
+        tximei.setText("IMEI:"+imei);
+        txdevice.setText("Device Name:"+namephone);
 
     }
 }
